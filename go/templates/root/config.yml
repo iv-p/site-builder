@@ -1,0 +1,10 @@
+id: 1
+
+params:
+  BodyWidth:
+    name: Body Width
+    default: 768px
+
+slots:
+  main:
+    multiple: true
