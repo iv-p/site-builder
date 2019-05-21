@@ -1,4 +1,2 @@
 <h1 style="color: blue;">Fragment 2!</h1>
-{{ range $fragment :=  .Fragments.content }}
-    {{ CallTemplate $fragment }}
-{{ end }}
+{{ template "content" }}

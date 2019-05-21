@@ -1,0 +1,5 @@
+{
+    "go.autocompleteUnimportedPackages": true,
+    "go.inferGopath": false,
+    "eslint.autoFixOnSave": true
+}

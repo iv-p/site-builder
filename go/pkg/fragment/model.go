@@ -3,18 +3,15 @@ package fragment
 // ID is the id of a fragment
 type ID string
 
-// Fragment is a the buiding block of a page
+// Fragment is the database representation of a fragment
 type Fragment struct {
-	ID        ID
-	Template  string
-	Data      map[string]interface{}
-	Fragments map[string][]Fragment
+	ID       ID
+	Template string
+	Data     map[string]interface{}
+	Nested   map[string][]ID
 }
 
-// Raw is the database representation of a fragment
-type Raw struct {
-	ID        ID
-	Template  string
-	Data      map[string]interface{}
-	Fragments map[string][]ID
+type Compiled struct {
+	HTML []byte
+	CSS  []byte
 }

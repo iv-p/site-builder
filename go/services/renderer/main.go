@@ -2,23 +2,20 @@ package main
 
 import (
 	"fmt"
-	"html/template"
 	"net/http"
 	"net/url"
 
-	"github.com/iv-p/site-builder/pkg/content"
 	"github.com/iv-p/site-builder/pkg/fragment"
+	"github.com/iv-p/site-builder/pkg/template"
 	"github.com/iv-p/site-builder/pkg/page"
 	"github.com/iv-p/site-builder/pkg/site"
-	"github.com/iv-p/site-builder/pkg/render"
-	templateloader "github.com/iv-p/site-builder/pkg/render/template-loader"
 )
 
-var tpl *template.Template
 var siteResolver *site.Resolver
 var pageResolver *page.Resolver
-var contentLoader *content.Loader
-var siteRenderer *render.SiteRenderer
+var pageLoader page.ILoader
+var renderer fragment.IRenderer
+// var siteRenderer *render.SiteRenderer
 
 func main() {
 	domainMapLoader := site.NewDomainMapLoader()
@@ -27,16 +24,19 @@ func main() {
 	urlMapLoader := page.NewURLMapLoader()
 	pageResolver = page.NewResolver(urlMapLoader)
 
-	rawFragmentLoader := fragment.NewRawLoader()
-	deepFragmentLoader := fragment.NewDeepLoader(rawFragmentLoader)
-	pageLoader := page.NewLoader()
-	contentLoader = content.NewLoader(pageLoader, deepFragmentLoader)
+	fragmentLoader := fragment.NewLoader()
+	templateLoader := template.NewLoader("templates/")
+	renderer = fragment.NewRenderer(fragmentLoader, templateLoader)
+	
+	// deepFragmentLoader := fragment.NewDeepLoader(rawFragmentLoader)
+	pageLoader = page.NewLoader()
+	// contentLoader = content.NewLoader(pageLoader, deepFragmentLoader)
 
-	templateLoader := templateloader.NewLoader("templates/")
-	contentRenderer := render.NewContentRenderer(templateLoader)
-	cssRenderer := render.NewCSSRenderer(templateLoader)
-	cssMinifier := render.NewCSSMinifier()
-	siteRenderer = render.NewSiteRenderer(contentRenderer, cssRenderer, cssMinifier, templateLoader)
+	// templateLoader := templateloader.NewLoader("templates/")
+	// contentRenderer := render.NewContentRenderer(templateLoader)
+	// cssRenderer := render.NewCSSRenderer(templateLoader)
+	// cssMinifier := render.NewCSSMinifier()
+	// siteRenderer = render.NewSiteRenderer(contentRenderer, cssRenderer, cssMinifier, templateLoader)
 
 	http.HandleFunc("/", index)
 	http.ListenAndServe(":8080", nil)
@@ -64,14 +64,14 @@ func index(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	content := contentLoader.Load(siteContext, pageContext)
+	page := pageLoader.Load(pageContext)
 
-	html, err := siteRenderer.Render(content)
+	html, err := renderer.Render(page.FragmentID)
 	if err != nil {
 		w.WriteHeader(500)
 		w.Write([]byte(err.Error()))
 		return
 	}
 
-	w.Write(html)
+	w.Write(html.HTML)
 }

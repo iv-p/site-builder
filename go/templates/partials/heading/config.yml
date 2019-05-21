@@ -1,5 +1,5 @@
 id: partials/heading
 
 slots:
-  main:
+  content:
     multiple: true

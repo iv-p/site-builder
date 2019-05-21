@@ -1,45 +1,45 @@
 package fragment
 
-var dummyData = map[ID]Raw{
-	"layout": Raw{
-		Template: "layouts/simple",
-		Fragments: map[string][]ID{
+var dummyData = map[ID]Fragment{
+	"layout": Fragment{
+		Template: "root",
+		Nested: map[string][]ID{
 			"content": []ID{"1"},
 		},
 		Data: map[string]interface{}{
 			"BodyWidth": "768px",
 		},
 	},
-	"1": Raw{
+	"1": Fragment{
 		Template: "partials/heading",
-		Fragments: map[string][]ID{
+		Nested: map[string][]ID{
 			"content": []ID{"2"},
 		},
 		Data: map[string]interface{}{
 			"BodyWidth": "768px",
 		},
 	},
-	"2": Raw{
-		Template:  "partials/paragraph",
-		Fragments: map[string][]ID{},
+	"2": Fragment{
+		Template: "partials/paragraph",
+		Nested:   map[string][]ID{},
 	},
 }
 
-// IRawLoader is Loader's interface
-type IRawLoader interface {
-	Load(ID) Raw
+// ILoader is Loader's interface
+type ILoader interface {
+	Load(ID) Fragment
 }
 
-// RawLoader loads fragments from a datastore
-type RawLoader struct {
+// Loader loads fragments from a datastore
+type Loader struct {
 }
 
-// NewRawLoader creates and returns a new fragment loader
-func NewRawLoader() *RawLoader {
-	return &RawLoader{}
+// NewLoader creates and returns a new fragment loader
+func NewLoader() *Loader {
+	return &Loader{}
 }
 
 // Load retrieves one fragmet from the datastore by its id
-func (l *RawLoader) Load(id ID) Raw {
+func (l *Loader) Load(id ID) Fragment {
 	return dummyData[id]
 }

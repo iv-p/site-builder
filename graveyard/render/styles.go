@@ -38,7 +38,7 @@ func (r *CSSRenderer) getFragmentCSS(root fragment.Fragment) (css []byte, err er
 	if err != nil {
 		return
 	}
-	for _, fragments := range root.Fragments {
+	for _, fragments := range root.Nested {
 		for _, fragment := range fragments {
 			var res []byte
 			res, err = r.compileFragmentCSS(fragment)

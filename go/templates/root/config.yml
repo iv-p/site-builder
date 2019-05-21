@@ -1,10 +1,11 @@
 id: 1
 
 params:
-  BodyWidth:
-    name: Body Width
+  - name: Body Width
     default: 768px
 
 slots:
-  main:
+  content:
     multiple: true
+  css:
+    multiple: false

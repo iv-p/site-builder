@@ -53,7 +53,6 @@ func (tl *Loader) Load() *template.Template {
 	})
 	if err != nil {
 		panic(err)
-
 	}
 	fmt.Println(files)
 

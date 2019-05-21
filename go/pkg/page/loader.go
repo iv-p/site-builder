@@ -2,7 +2,7 @@ package page
 
 // ILoader is page loaders interface
 type ILoader interface {
-	Load(ID) Raw
+	Load(Context) Raw
 }
 
 // Loader loads the data for a single page
@@ -15,14 +15,9 @@ func NewLoader() *Loader {
 }
 
 // Load fetches and returns a page by its id
-func (l *Loader) Load(id ID) Raw {
+func (l *Loader) Load(context Context) Raw {
 	return Raw{
-		ID:         id,
+		ID:         ID(context.PageID),
 		FragmentID: "layout",
 	}
-}
-
-// IDFromPageContext gets the page id from the page context
-func IDFromPageContext(context Context) ID {
-	return ID(context.PageID)
 }

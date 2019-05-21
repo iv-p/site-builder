@@ -1,1 +1,10 @@
-id: partials/paragraph
+id: 1
+
+params:
+  - name: Body Width
+    default: 768px
+
+slots:
+  content:
+    multiple: true
+
