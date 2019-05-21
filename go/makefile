@@ -1,18 +1,20 @@
 .PHONY: test build init
 
+package_main = services/renderer/main.go
+executable = site-renderer
 all: build
 
 build: test
 	@echo "Building"
-	@cd src/github.com/iv-p/ssb; go build -o ../../../../bin/ssb main.go
+	@go build -o ./bin/$(executable) $(package_main)
 
 test: init
 	@echo "Running unit tests"
-	@cd src/github.com/iv-p/ssb; go test ./...
+	@go test ./...
 
 init:
 	@echo "Ensuring dependencies"
-	@cd src/github.com/iv-p/ssb; go get
+	@go get
 
 run: build
-	./bin/ssb
+	./bin/$(executable)

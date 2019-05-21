@@ -1,6 +1,6 @@
 package page
 
-import "github.com/iv-p/site-builder/pkg/context/site"
+import "github.com/iv-p/site-builder/pkg/site"
 
 // URLMap holds the url -> page id for a site
 type URLMap map[string]string

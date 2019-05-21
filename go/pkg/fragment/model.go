@@ -1,4 +1,4 @@
-package fragmentloader
+package fragment
 
 // ID is the id of a fragment
 type ID string

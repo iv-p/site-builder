@@ -1,6 +1,4 @@
-package pageloader
-
-import "github.com/iv-p/site-builder/pkg/context/page"
+package page
 
 // ILoader is page loaders interface
 type ILoader interface {
@@ -25,6 +23,6 @@ func (l *Loader) Load(id ID) Raw {
 }
 
 // IDFromPageContext gets the page id from the page context
-func IDFromPageContext(context page.Context) ID {
+func IDFromPageContext(context Context) ID {
 	return ID(context.PageID)
 }

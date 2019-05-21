@@ -1,4 +1,4 @@
-package fragmentloader
+package fragment
 
 // IDeepLoader is Loader's interface
 type IDeepLoader interface {

@@ -5,7 +5,7 @@ import (
 	"fmt"
 	"html/template"
 
-	"github.com/iv-p/site-builder/pkg/content/fragment-loader"
+	"github.com/iv-p/site-builder/pkg/fragment"
 
 	"github.com/iv-p/site-builder/pkg/content"
 	templateloader "github.com/iv-p/site-builder/pkg/render/template-loader"
@@ -33,7 +33,7 @@ func (r *CSSRenderer) Render(c content.Content) ([]byte, error) {
 	return r.getFragmentCSS(c.Fragment)
 }
 
-func (r *CSSRenderer) getFragmentCSS(root fragmentloader.Fragment) (css []byte, err error) {
+func (r *CSSRenderer) getFragmentCSS(root fragment.Fragment) (css []byte, err error) {
 	css, err = r.compileFragmentCSS(root)
 	if err != nil {
 		return
@@ -51,7 +51,7 @@ func (r *CSSRenderer) getFragmentCSS(root fragmentloader.Fragment) (css []byte, 
 	return
 }
 
-func (r *CSSRenderer) compileFragmentCSS(fragment fragmentloader.Fragment) (css []byte, err error) {
+func (r *CSSRenderer) compileFragmentCSS(fragment fragment.Fragment) (css []byte, err error) {
 	layout := r.tpl.Lookup(fmt.Sprintf("%s-css", fragment.Template))
 	if layout == nil {
 		return []byte{}, fmt.Errorf("template %s not found", fragment.Template)

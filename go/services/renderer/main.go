@@ -7,10 +7,9 @@ import (
 	"net/url"
 
 	"github.com/iv-p/site-builder/pkg/content"
-	fragmentloader "github.com/iv-p/site-builder/pkg/content/fragment-loader"
-	pageloader "github.com/iv-p/site-builder/pkg/content/page-loader"
-	"github.com/iv-p/site-builder/pkg/context/page"
-	"github.com/iv-p/site-builder/pkg/context/site"
+	"github.com/iv-p/site-builder/pkg/fragment"
+	"github.com/iv-p/site-builder/pkg/page"
+	"github.com/iv-p/site-builder/pkg/site"
 	"github.com/iv-p/site-builder/pkg/render"
 	templateloader "github.com/iv-p/site-builder/pkg/render/template-loader"
 )
@@ -28,9 +27,9 @@ func main() {
 	urlMapLoader := page.NewURLMapLoader()
 	pageResolver = page.NewResolver(urlMapLoader)
 
-	rawFragmentLoader := fragmentloader.NewRawLoader()
-	deepFragmentLoader := fragmentloader.NewDeepLoader(rawFragmentLoader)
-	pageLoader := pageloader.NewLoader()
+	rawFragmentLoader := fragment.NewRawLoader()
+	deepFragmentLoader := fragment.NewDeepLoader(rawFragmentLoader)
+	pageLoader := page.NewLoader()
 	contentLoader = content.NewLoader(pageLoader, deepFragmentLoader)
 
 	templateLoader := templateloader.NewLoader("templates/")
@@ -50,6 +49,7 @@ func index(w http.ResponseWriter, r *http.Request) {
 		w.Write([]byte(err.Error()))
 		return
 	}
+
 	siteContext, err := siteResolver.Resolve(u)
 	if err != nil {
 		w.WriteHeader(404)

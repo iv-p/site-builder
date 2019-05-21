@@ -1,4 +1,4 @@
-package fragmentloader
+package fragment
 
 var dummyData = map[ID]Raw{
 	"layout": Raw{

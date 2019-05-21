@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"net/url"
 
-	"github.com/iv-p/site-builder/pkg/context/site"
+	"github.com/iv-p/site-builder/pkg/site"
 )
 
 // Context is the resolved page context

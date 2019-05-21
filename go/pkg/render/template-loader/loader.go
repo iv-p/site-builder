@@ -9,7 +9,7 @@ import (
 	"path/filepath"
 	"strings"
 
-	fragmentloader "github.com/iv-p/site-builder/pkg/content/fragment-loader"
+	"github.com/iv-p/site-builder/pkg/fragment"
 )
 
 // ILoader is the interface of Loader
@@ -36,7 +36,7 @@ func (tl *Loader) Load() *template.Template {
 
 	funcMap := template.FuncMap{
 		// The name "title" is what the function will be called in the template text.
-		"CallTemplate": func(fragment fragmentloader.Fragment) (ret template.HTML, err error) {
+		"CallTemplate": func(fragment fragment.Fragment) (ret template.HTML, err error) {
 			buf := bytes.NewBuffer([]byte{})
 			err = tpl.ExecuteTemplate(buf, fmt.Sprintf("%s-html", fragment.Template), fragment)
 			ret = template.HTML(buf.String())

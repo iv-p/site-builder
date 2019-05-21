@@ -4,7 +4,7 @@ import (
 	"net/url"
 	"testing"
 
-	"github.com/iv-p/site-builder/pkg/context/site"
+	"github.com/iv-p/site-builder/pkg/site"
 )
 
 var pages = URLMap{
