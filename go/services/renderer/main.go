@@ -28,15 +28,7 @@ func main() {
 	templateLoader := template.NewLoader("templates/")
 	renderer = fragment.NewRenderer(fragmentLoader, templateLoader)
 	
-	// deepFragmentLoader := fragment.NewDeepLoader(rawFragmentLoader)
 	pageLoader = page.NewLoader()
-	// contentLoader = content.NewLoader(pageLoader, deepFragmentLoader)
-
-	// templateLoader := templateloader.NewLoader("templates/")
-	// contentRenderer := render.NewContentRenderer(templateLoader)
-	// cssRenderer := render.NewCSSRenderer(templateLoader)
-	// cssMinifier := render.NewCSSMinifier()
-	// siteRenderer = render.NewSiteRenderer(contentRenderer, cssRenderer, cssMinifier, templateLoader)
 
 	http.HandleFunc("/", index)
 	http.ListenAndServe(":8080", nil)
@@ -64,9 +56,9 @@ func index(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	page := pageLoader.Load(pageContext)
+	pag := pageLoader.Load(pageContext)
 
-	html, err := renderer.Render(page.FragmentID)
+	html, err := renderer.Render(pag.FragmentID)
 	if err != nil {
 		w.WriteHeader(500)
 		w.Write([]byte(err.Error()))

@@ -5,35 +5,47 @@ import (
 	gtpl "html/template"
 	"strings"
 
+	"github.com/iv-p/site-builder/pkg/scheduler"
+
+	"github.com/iv-p/site-builder/pkg/page"
+	"github.com/iv-p/site-builder/pkg/site"
+
 	"github.com/iv-p/site-builder/pkg/template"
 )
 
 type IRenderer interface {
-	Render(ID) (Compiled, error)
+	Render(ID, page.ID, site.ID) (Compiled, error)
 }
 
 type Renderer struct {
 	templateLoader template.ILoader
 	fragmentLoader ILoader
+	scheduler      scheduler.IScheduler
 }
 
-func NewRenderer(fragmentLoader ILoader, templateLoader template.ILoader) IRenderer {
+func NewRenderer(fragmentLoader ILoader, templateLoader template.ILoader, scheduler scheduler.IScheduler) IRenderer {
 	return &Renderer{
 		templateLoader: templateLoader,
 		fragmentLoader: fragmentLoader,
+		scheduler:      scheduler,
 	}
 }
 
-func (r *Renderer) Render(id ID) (Compiled, error) {
-	return r.renderFragment(id)
+func (r *Renderer) Render(fragmentID ID, pageID page.ID, siteID site.ID) (Compiled, error) {
+	return r.renderFragment(fragmentID, pageID, siteID)
 }
 
-func (r *Renderer) renderFragment(fragmentID ID) (result Compiled, err error) {
+func (r *Renderer) renderFragment(fragmentID ID, pageID page.ID, siteID site.ID) (result Compiled, err error) {
 	fragment := r.fragmentLoader.Load(fragmentID)
 	htmlTemplate := gtpl.New("")
 
 	var compiledSection Compiled
-	for sectionName, sectionIDs := range fragment.Nested {
+	nested, err := r.scheduler.Get(fragmentID, pageID, siteID)
+	if err != nil {
+		return
+	}
+
+	for sectionName, sectionIDs := range nested.Children {
 		compiledSection, err = r.renderSection(sectionIDs)
 		htmlTemplate, err = htmlTemplate.New(sectionName).Parse(string(compiledSection.HTML))
 		if err != nil {

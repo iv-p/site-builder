@@ -1,25 +1,25 @@
 package fragment
 
 var dummyData = map[ID]Fragment{
-	"layout": Fragment{
+	"layout": {
 		Template: "root",
 		Nested: map[string][]ID{
-			"content": []ID{"1"},
+			"content": {"1"},
 		},
 		Data: map[string]interface{}{
 			"BodyWidth": "768px",
 		},
 	},
-	"1": Fragment{
+	"1": {
 		Template: "partials/heading",
 		Nested: map[string][]ID{
-			"content": []ID{"2"},
+			"content": {"2"},
 		},
 		Data: map[string]interface{}{
 			"BodyWidth": "768px",
 		},
 	},
-	"2": Fragment{
+	"2": {
 		Template: "partials/paragraph",
 		Nested:   map[string][]ID{},
 	},

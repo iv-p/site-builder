@@ -17,7 +17,6 @@ func NewLoader() *Loader {
 // Load fetches and returns a page by its id
 func (l *Loader) Load(context Context) Raw {
 	return Raw{
-		ID:         ID(context.PageID),
-		FragmentID: "layout",
+		ID: ID(context.PageID),
 	}
 }

@@ -1,13 +1,9 @@
 package page
 
-import (
-	"github.com/iv-p/site-builder/pkg/fragment"
-)
-
 // Raw holds information for a single page
 type Raw struct {
-	ID         ID
-	FragmentID fragment.ID
+	ID   ID
+	Data map[string]interface{}
 }
 
 // ID is the id of a page
