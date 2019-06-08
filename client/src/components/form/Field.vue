@@ -3,6 +3,7 @@
     v-bind:is="typeComponentMap[field.type]"
     v-on:change="handleChange"
     :field="field"
+    :value="value"
   ></component>
 </template>
 
@@ -14,7 +15,7 @@ export default {
   components: {
     InputText
   },
-  props: ["field"],
+  props: ["field", "value"],
   methods: {
     handleChange(value) {
       this.$emit("change", value);

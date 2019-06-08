@@ -7,7 +7,7 @@
         type="text"
         placeholder="Normal input"
         @change="handleChange"
-        v-model="value"
+        v-model="v"
       />
     </div>
   </div>
@@ -16,15 +16,15 @@
 <script>
 export default {
   name: "FormTypeText",
-  props: ["field"],
+  props: ["field", "value"],
   methods: {
     handleChange() {
-      this.$emit("change", this.value);
+      this.$emit("change", this.v);
     }
   },
   data() {
     return {
-      value: ""
+      v: this.value
     };
   }
 };

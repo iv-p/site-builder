@@ -91,8 +91,15 @@ const instances = {
         data
       };
     },
-    SET_INSTANCE: (state, { id, instance }) => {
-      state.instances[id] = instance;
+    UPDATE_INSTANCE: (state, { id, template, data }) => {
+      state.instances = {
+        ...state.instances,
+        [id]: {
+          id,
+          template,
+          data
+        }
+      };
     },
     SET_DYNAMIC_KEY: (state, { id, key_id, key, dynamic = true }) => {
       const instance = state.instances[id];
@@ -105,23 +112,18 @@ const instances = {
         dynamic
       };
       state.instances[id] = instance;
-    },
-    SET_INSTANCE_DATA: (state, { id, key, value }) => {
-      const instance = state.instances[id];
-      if (!instance) {
-        return;
-      }
-      instance.data[key] = {
-        ...instance.data[key],
-        dynamic: false,
-        value: value
-      };
-      state.instances[id] = instance;
     }
   },
   actions: {
     CREATE_INSTANCE: ({ commit }, { template, data }) => {
       commit("CREATE_INSTANCE", { template, data });
+      return true;
+    },
+    UPDATE_INSTANCE: ({ commit, state }, { id, template, data }) => {
+      if (!state.instances[id]) {
+        return false;
+      }
+      commit("UPDATE_INSTANCE", { id, template, data });
       return true;
     }
   }

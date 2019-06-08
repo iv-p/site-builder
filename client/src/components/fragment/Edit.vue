@@ -1,23 +1,10 @@
 <template>
-  <section class="section">
-    <div class="field">
-      <label class="label">Template</label>
-      <div class="control">
-        <div class="select">
-          <select v-model="template">
-            <option disabled value="">Select template</option>
-            <option v-for="t in templateIds" :key="t">
-              {{ t }}
-            </option>
-          </select>
-        </div>
-      </div>
-    </div>
-
+  <div>
     <FormField
       v-for="prop in templateProps(template)"
       :key="prop.name"
       :field="prop"
+      :value="data[prop.name]"
       v-on:change="handleChange($event, prop)"
     />
 
@@ -29,7 +16,7 @@
         <button class="button is-text" @click="handleCancel">Cancel</button>
       </div>
     </div>
-  </section>
+  </div>
 </template>
 
 <script>
@@ -37,25 +24,35 @@ import FormField from "@/components/form/Field";
 
 import { mapGetters, mapActions } from "vuex";
 export default {
-  name: "CreateFragment",
+  name: "EditFragment",
   components: {
     FormField
   },
+  props: ["fragmentId"],
+  mounted() {
+    this.fragment = this.getInstance(this.fragmentId);
+    if (!this.fragment) {
+      return;
+    }
+    this.data = Object.assign({}, this.fragment.data);
+    this.template = this.fragment.template;
+  },
   computed: {
     ...mapGetters({
-      templateIds: "fragment/template/GET_TEMPLATE_IDS",
+      getInstance: "fragment/instance/GET_INSTANCE",
       templateProps: "fragment/template/GET_TEMPLATE_PROPS"
     })
   },
   methods: {
     ...mapActions({
-      createInstance: "fragment/instance/CREATE_INSTANCE"
+      updateInstance: "fragment/instance/UPDATE_INSTANCE"
     }),
     handleChange(value, prop) {
       this.data[prop.name] = value;
     },
     async handleSubmit() {
-      const res = await this.createInstance({
+      const res = await this.updateInstance({
+        id: this.fragmentId,
         template: this.template,
         data: this.data
       });
@@ -76,6 +73,7 @@ export default {
   },
   data() {
     return {
+      fragment: {},
       template: "",
       data: {}
     };
