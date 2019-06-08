@@ -20,7 +20,7 @@ const layout = {
         </head>
         <body>
             <h1>Hello World!</h1>
-            <amp-img src="https://place-hold.it/300x500" width="1080" height="610" layout="responsive"></amp-img>
+            <amp-img src="blob:http://localhost:8080/7d206a06-08d5-44b4-99dd-2c135c6a28c8" width="1080" height="610" layout="responsive"></amp-img>
             {{ header }}
             {{ content }}
             {{ footer }}
@@ -33,13 +33,7 @@ const layout = {
         }
     `,
   js: ["amp-image"],
-  defaultParams: {
-    param1: {
-      name: "value1",
-      type: "number",
-      value: "13"
-    }
-  }
+  props: {}
 };
 
 export default layout;

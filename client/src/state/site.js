@@ -7,7 +7,7 @@ const site = {
     name: "site name",
     title: {},
     layout: {
-      layoutId: "layout1",
+      layoutId: "ampLayout",
       components: {
         header: "instance3",
         navbar: "instance4",
@@ -52,6 +52,9 @@ const site = {
       const cssAndJs = _.reduce(
         sections,
         (result, section) => {
+          if (!section) {
+            return result;
+          }
           result.css += section.css;
           result.js = [...result.js, ...section.js];
           return result;
@@ -63,6 +66,9 @@ const site = {
       const js = new Set(cssAndJs.js);
 
       Object.keys(sections).forEach(key => {
+        if (!sections[key]) {
+          return;
+        }
         sections[key] = sections[key].html;
       });
       const data = {

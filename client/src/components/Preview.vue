@@ -3,22 +3,11 @@
 </template>
 
 <script>
-import Mustache from "mustache";
-import layout from "@/templates/layouts/one";
 import { mapGetters } from "vuex";
 
 export default {
   computed: {
     ...mapGetters("site", ["GET_RENDERED"])
-  },
-  data() {
-    return {
-      html: Mustache.render(layout.html, {
-        header: "HEADER",
-        content: "CONTENT",
-        footer: "FOOTER"
-      })
-    };
   }
 };
 </script>

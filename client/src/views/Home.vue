@@ -1,23 +1,16 @@
 <template>
   <section class="section">
-    <ImageUpload />
-    <ImageSelector @selected="handleSelected" />
-    <Preview />
+    <CreateFragment />
   </section>
 </template>
 
 <script>
-// @ is an alias to /src
-import Preview from "@/components/Preview.vue";
-import ImageUpload from "@/components/file/ImageUpload.vue";
-import ImageSelector from "@/components/file/ImageSelector.vue";
+import CreateFragment from "@/components/fragment/Create.vue";
 
 export default {
   name: "home",
   components: {
-    Preview,
-    ImageUpload,
-    ImageSelector
+    CreateFragment
   },
   methods: {
     handleSelected(id) {

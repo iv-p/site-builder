@@ -1,5 +1,6 @@
 // import uuid from "uuid/v4";
 import mustache from "mustache";
+import uuid from "uuid/v4";
 
 const instances = {
   namespaced: true,
@@ -82,6 +83,14 @@ const instances = {
     }
   },
   mutations: {
+    CREATE_INSTANCE: (state, { template, data }) => {
+      const id = uuid();
+      state.instances[id] = {
+        id,
+        template,
+        data
+      };
+    },
     SET_INSTANCE: (state, { id, instance }) => {
       state.instances[id] = instance;
     },
@@ -100,7 +109,6 @@ const instances = {
     SET_INSTANCE_DATA: (state, { id, key, value }) => {
       const instance = state.instances[id];
       if (!instance) {
-        console.log("fragment not found");
         return;
       }
       instance.data[key] = {
@@ -111,7 +119,12 @@ const instances = {
       state.instances[id] = instance;
     }
   },
-  actions: {}
+  actions: {
+    CREATE_INSTANCE: ({ commit }, { template, data }) => {
+      commit("CREATE_INSTANCE", { template, data });
+      return true;
+    }
+  }
 };
 
 export default instances;
