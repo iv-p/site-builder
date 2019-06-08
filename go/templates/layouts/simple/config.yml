@@ -5,5 +5,4 @@ params:
     default: 768px
 
 slots:
-  main:
-    multiple: true
+  - name: main

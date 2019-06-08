@@ -9,21 +9,19 @@ import (
 
 	"github.com/iv-p/site-builder/pkg/page"
 	"github.com/iv-p/site-builder/pkg/site"
-
-	"github.com/iv-p/site-builder/pkg/template"
 )
 
 type IRenderer interface {
-	Render(ID, page.ID, site.ID) (Compiled, error)
+	Render(InstanceID, page.ID, site.ID) (Compiled, error)
 }
 
 type Renderer struct {
-	templateLoader template.ILoader
+	templateLoader ILoader
 	fragmentLoader ILoader
 	scheduler      scheduler.IScheduler
 }
 
-func NewRenderer(fragmentLoader ILoader, templateLoader template.ILoader, scheduler scheduler.IScheduler) IRenderer {
+func NewRenderer(fragmentLoader ILoader, templateLoader ILoader, scheduler scheduler.IScheduler) IRenderer {
 	return &Renderer{
 		templateLoader: templateLoader,
 		fragmentLoader: fragmentLoader,
@@ -31,11 +29,11 @@ func NewRenderer(fragmentLoader ILoader, templateLoader template.ILoader, schedu
 	}
 }
 
-func (r *Renderer) Render(fragmentID ID, pageID page.ID, siteID site.ID) (Compiled, error) {
+func (r *Renderer) Render(fragmentID InstanceID, pageID page.ID, siteID site.ID) (Compiled, error) {
 	return r.renderFragment(fragmentID, pageID, siteID)
 }
 
-func (r *Renderer) renderFragment(fragmentID ID, pageID page.ID, siteID site.ID) (result Compiled, err error) {
+func (r *Renderer) renderFragment(fragmentID InstanceID, pageID page.ID, siteID site.ID) (result Compiled, err error) {
 	fragment := r.fragmentLoader.Load(fragmentID)
 	htmlTemplate := gtpl.New("")
 
@@ -54,7 +52,7 @@ func (r *Renderer) renderFragment(fragmentID ID, pageID page.ID, siteID site.ID)
 		result.CSS = append(result.CSS, compiledSection.CSS...)
 	}
 
-	var tpl template.Template
+	var tpl Template
 	tpl, err = r.templateLoader.Load(fragment.Template)
 	if err != nil {
 		return
@@ -85,7 +83,7 @@ func (r *Renderer) renderFragment(fragmentID ID, pageID page.ID, siteID site.ID)
 	return
 }
 
-func (r *Renderer) renderSection(ids []ID) (Compiled, error) {
+func (r *Renderer) renderSection(ids []InstanceID) (Compiled, error) {
 	var compiledFragments []Compiled
 	for _, fragmentID := range ids {
 		compiled, err := r.renderFragment(fragmentID)

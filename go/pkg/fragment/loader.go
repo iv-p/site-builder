@@ -1,9 +1,9 @@
 package fragment
 
-var dummyData = map[ID]Fragment{
+var dummyData = map[InstanceID]Instance{
 	"layout": {
 		Template: "root",
-		Nested: map[string][]ID{
+		Nested: map[string][]InstanceID{
 			"content": {"1"},
 		},
 		Data: map[string]interface{}{
@@ -12,7 +12,7 @@ var dummyData = map[ID]Fragment{
 	},
 	"1": {
 		Template: "partials/heading",
-		Nested: map[string][]ID{
+		Nested: map[string][]InstanceID{
 			"content": {"2"},
 		},
 		Data: map[string]interface{}{
@@ -21,16 +21,16 @@ var dummyData = map[ID]Fragment{
 	},
 	"2": {
 		Template: "partials/paragraph",
-		Nested:   map[string][]ID{},
+		Nested:   map[string][]InstanceID{},
 	},
 }
 
-// ILoader is Loader's interface
+// ILoader is TemplateLoader's interface
 type ILoader interface {
-	Load(ID) Fragment
+	Load(InstanceID) Instance
 }
 
-// Loader loads fragments from a datastore
+// TemplateLoader loads fragments from a datastore
 type Loader struct {
 }
 
@@ -40,6 +40,6 @@ func NewLoader() *Loader {
 }
 
 // Load retrieves one fragmet from the datastore by its id
-func (l *Loader) Load(id ID) Fragment {
+func (l *Loader) Load(id InstanceID) Instance {
 	return dummyData[id]
 }

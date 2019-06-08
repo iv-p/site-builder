@@ -5,6 +5,4 @@ params:
     default: 768px
 
 slots:
-  content:
-    multiple: true
-
+  - name: content

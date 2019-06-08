@@ -6,7 +6,6 @@ import (
 	"net/url"
 
 	"github.com/iv-p/site-builder/pkg/fragment"
-	"github.com/iv-p/site-builder/pkg/template"
 	"github.com/iv-p/site-builder/pkg/page"
 	"github.com/iv-p/site-builder/pkg/site"
 )
@@ -15,6 +14,7 @@ var siteResolver *site.Resolver
 var pageResolver *page.Resolver
 var pageLoader page.ILoader
 var renderer fragment.IRenderer
+
 // var siteRenderer *render.SiteRenderer
 
 func main() {
@@ -25,9 +25,9 @@ func main() {
 	pageResolver = page.NewResolver(urlMapLoader)
 
 	fragmentLoader := fragment.NewLoader()
-	templateLoader := template.NewLoader("templates/")
+	templateLoader := fragment.NewLoader("templates/")
 	renderer = fragment.NewRenderer(fragmentLoader, templateLoader)
-	
+
 	pageLoader = page.NewLoader()
 
 	http.HandleFunc("/", index)
