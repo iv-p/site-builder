@@ -20,6 +20,9 @@ const pages = {
   },
   getters: {
     GET_PAGE: state => id => state.pages[id],
+    GET_PAGE_SECTIONS: state => id => {
+      state.pages[id] ? state.pages[id].fragments : null;
+    },
     GET_RENDERED: (state, getters, rootState, rootGetters) => (
       id,
       siteDefaults

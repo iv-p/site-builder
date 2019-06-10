@@ -7,10 +7,10 @@ const site = {
     name: "site name",
     title: {},
     layout: {
-      layoutId: "ampLayout",
-      components: {
+      layoutId: "layoutId",
+      sections: {
         header: "instance3",
-        navbar: "instance4",
+        menu: "instance4",
         footer: "instance5"
       }
     },
@@ -27,6 +27,8 @@ const site = {
   },
   getters: {
     GET_SITE: state => state,
+    GET_SITE_LAYOUT: state => state.layout.layoutId,
+    GET_SITE_SECTIONS: state => state.layout.sections,
     GET_RENDERED: (state, getters, rootState, rootGetters) => pageId => {
       const site = getters["GET_SITE"];
       if (!site) {
@@ -34,16 +36,22 @@ const site = {
       }
 
       const sections = {};
-      Object.keys(site.layout.components).forEach(key => {
-        const fragmentId = site.layout.components[key];
+      Object.keys(site.layout.sections).forEach(key => {
+        const fragmentId = site.layout.sections[key];
         sections[key] = rootGetters["fragment/instance/GET_RENDERED"](
           fragmentId
         );
       });
 
       sections["content"] = rootGetters["page/GET_RENDERED"](pageId);
-      const layoutTemplate = rootGetters["fragment/template/GET_TEMPLATE"](
+      const layoutInstance = rootGetters["fragment/instance/GET_INSTANCE"](
         site.layout.layoutId
+      );
+      if (!layoutInstance) {
+        return;
+      }
+      const layoutTemplate = rootGetters["fragment/template/GET_TEMPLATE"](
+        layoutInstance.template
       );
       if (!layoutTemplate) {
         return;

@@ -1,4 +1,5 @@
 const layout = {
+  name: "Amp layout",
   html: `
     <!doctype html>
     <html ⚡>

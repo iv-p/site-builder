@@ -1,4 +1,5 @@
 const layout = {
+  name: "Heading",
   html: `
     <h1>{{ content }}</h1>
     `,
@@ -11,7 +12,7 @@ const layout = {
   props: {
     content: {
       name: "content",
-      label: "Header conent",
+      label: "Text",
       type: "text",
       default: "defalut header"
     }

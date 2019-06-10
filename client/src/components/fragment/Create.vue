@@ -1,9 +1,9 @@
 <template>
-  <section class="section">
-    <div class="field">
+  <div>
+    <div class="field is-expanded">
       <label class="label">Template</label>
       <div class="control">
-        <div class="select">
+        <div class="select is-fullwidth">
           <select v-model="template">
             <option disabled value="">Select template</option>
             <option v-for="t in templateIds" :key="t">
@@ -29,7 +29,7 @@
         <button class="button is-text" @click="handleCancel">Cancel</button>
       </div>
     </div>
-  </section>
+  </div>
 </template>
 
 <script>

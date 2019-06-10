@@ -1,0 +1,37 @@
+service: lemongrass
+provider:
+  name: aws
+  region: eu-west-1
+  runtime: nodejs8.10
+  environment:
+    DYNAMODB_TABLE: ${self:service}-${self:provider.stage}
+
+functions:
+  graphql:
+    # this is formatted as <FILENAME>.<HANDLER>
+    handler: graphql.graphqlHandler
+    events:
+    - http:
+        path: graphql
+        method: post
+        cors: true
+    - http:
+        path: graphql
+        method: get
+        cors: true
+
+resources:
+  Resources:
+    Fragments:
+      Type: 'AWS::DynamoDB::Table'
+      Properties:
+        AttributeDefinitions:
+          - AttributeName: fragmentId
+            AttributeType: S
+        KeySchema:
+          - AttributeName: fragmentId
+            KeyType: HASH
+        ProvisionedThroughput:
+          ReadCapacityUnits: 1
+          WriteCapacityUnits: 1
+        TableName: ${self:provider.environment.DYNAMODB_TABLE}

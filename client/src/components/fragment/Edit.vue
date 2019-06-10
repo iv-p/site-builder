@@ -1,21 +1,28 @@
 <template>
   <div>
-    <FormField
-      v-for="prop in templateProps(template)"
-      :key="prop.name"
-      :field="prop"
-      :value="data[prop.name]"
-      v-on:change="handleChange($event, prop)"
-    />
+    <template v-if="error">
+      Fragment not found
+    </template>
+    <template v-else>
+      <FormField
+        v-for="prop in templateProps(template)"
+        :key="prop.name"
+        :field="prop"
+        :value="data[prop.name]"
+        v-on:change="handleChange($event, prop)"
+      />
 
-    <div class="field is-grouped">
-      <div class="control">
-        <button class="button is-primary" @click="handleSubmit">Submit</button>
+      <div class="field is-grouped is-expanded">
+        <div class="control">
+          <button class="button is-primary" @click="handleSubmit">
+            Submit
+          </button>
+        </div>
+        <div class="control">
+          <button class="button is-text" @click="handleCancel">Cancel</button>
+        </div>
       </div>
-      <div class="control">
-        <button class="button is-text" @click="handleCancel">Cancel</button>
-      </div>
-    </div>
+    </template>
   </div>
 </template>
 
@@ -32,8 +39,10 @@ export default {
   mounted() {
     this.fragment = this.getInstance(this.fragmentId);
     if (!this.fragment) {
+      this.error = true;
       return;
     }
+    this.error = false;
     this.data = Object.assign({}, this.fragment.data);
     this.template = this.fragment.template;
   },
@@ -73,6 +82,7 @@ export default {
   },
   data() {
     return {
+      error: false,
       fragment: {},
       template: "",
       data: {}

@@ -12,9 +12,11 @@
       <a
         role="button"
         class="navbar-burger burger"
+        ref="burger"
         aria-label="menu"
         aria-expanded="false"
         data-target="navbarBasicExample"
+        @click="toggleMenu"
       >
         <span aria-hidden="true"></span>
         <span aria-hidden="true"></span>
@@ -22,7 +24,7 @@
       </a>
     </div>
 
-    <div id="navbarBasicExample" class="navbar-menu">
+    <div id="navbarBasicExample" ref="menu" class="navbar-menu">
       <div class="navbar-start">
         <a class="navbar-item">Home</a>
 
@@ -45,9 +47,9 @@
         <div class="navbar-item">
           <div class="buttons">
             <a class="button is-primary">
-              <strong>Sign up</strong>
+              <strong>Generate</strong>
             </a>
-            <a class="button is-light">Log in</a>
+            <a class="button is-text">Export</a>
           </div>
         </div>
       </div>
@@ -56,5 +58,12 @@
 </template>
 
 <script>
-export default {};
+export default {
+  methods: {
+    toggleMenu() {
+      this.$refs.burger.classList.toggle("is-active");
+      this.$refs.menu.classList.toggle("is-active");
+    }
+  }
+};
 </script>

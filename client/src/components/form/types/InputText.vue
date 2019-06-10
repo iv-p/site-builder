@@ -1,5 +1,5 @@
 <template>
-  <div class="field">
+  <div class="field is-expanded">
     <label class="label">{{ field.label }}</label>
     <div class="control">
       <input
